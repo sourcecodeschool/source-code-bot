@@ -1,11 +1,11 @@
-package ru.javacourse.hibernate;
+package ru.javacourse.config;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-public class DataBaseSessionFactory {
+public class HibernateConfig {
     private static SessionFactory sessionFactory;
 
 
@@ -16,8 +16,6 @@ public class DataBaseSessionFactory {
         ServiceRegistry serviceRegistry
                 = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties()).build();
-        //configuration.addAnnotatedClass(Car.class);
-        //configuration.addAnnotatedClass(Engine.class);
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         return sessionFactory;
     }
