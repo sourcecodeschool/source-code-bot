@@ -28,7 +28,7 @@ public class Exercise {
     private String description;
 
     @Column(name = "file")
-    private ByteArray file;
+    private byte[] file;
 
     @Column(name = "complexity")
     private Integer complexity;
