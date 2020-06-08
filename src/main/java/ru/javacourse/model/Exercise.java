@@ -1,4 +1,4 @@
-package ru.javacourse;
+package ru.javacourse.model;
 
 
 import javassist.bytecode.ByteArray;
