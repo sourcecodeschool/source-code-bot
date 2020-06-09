@@ -1,10 +1,11 @@
-package ru.javacourse.model;
+package ru.javacourse.dao;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import ru.javacourse.config.HibernateConfig;
+import ru.javacourse.model.Exercise;
 
 import java.util.List;
 
