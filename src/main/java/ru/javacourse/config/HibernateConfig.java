@@ -4,6 +4,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import ru.javacourse.model.Exercise;
+import ru.javacourse.model.Lesson;
+import ru.javacourse.model.LessonTask;
+import ru.javacourse.model.Resource;
 
 public class HibernateConfig {
     private static SessionFactory sessionFactory;
@@ -16,6 +20,10 @@ public class HibernateConfig {
         ServiceRegistry serviceRegistry
                 = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties()).build();
+        configuration.addAnnotatedClass(Lesson.class);
+        configuration.addAnnotatedClass(LessonTask.class);
+        configuration.addAnnotatedClass(Resource.class);
+        configuration.addAnnotatedClass(Exercise.class);
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         return sessionFactory;
     }
