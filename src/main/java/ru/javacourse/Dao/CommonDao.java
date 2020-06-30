@@ -1,42 +1,41 @@
-package ru.javacourse.model;
+package ru.javacourse.Dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import ru.javacourse.config.HibernateConfig;
+import ru.javacourse.model.Lesson;
 
 import java.util.List;
 
-public class ResourceDao {
-
+public class CommonDao {
     private static SessionFactory sessionFactory = HibernateConfig.getSessionFactory();
+    private java.lang.Object Object;
 
-    //получение списка всех уроков
-    public List<Resource> getAll ()
+    //получение списка
+   public <T> List<T> getAll(T obj)
     {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        List <Resource> resources = session.createQuery("from Resource").list();
+        List <T> t = session.createQuery("from  " + obj.getClass().getSimpleName()).list();
         tx.commit();
         session.close();
-        return resources;
+        return t;
     }
 
     //получение записи по id
-    public Resource getById (String resourceId)
-    {
+    public Lesson getById(String lessonId) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Resource resource = session.get(Resource.class, resourceId);
+        Lesson lesson = session.get(Lesson.class, lessonId);
         tx.commit();
         session.close();
-        return resource;
+        return lesson;
 
     }
 
     //сохранение записи
-    public <T> void save (T entity)
-    {
+    public <T> void save(T entity) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         session.save(entity);
