@@ -20,10 +20,10 @@ public class HibernateConfig {
         ServiceRegistry serviceRegistry
                 = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties()).build();
-        configuration.addAnnotatedClass(Lesson.class);
-        configuration.addAnnotatedClass(LessonTask.class);
+//        configuration.addAnnotatedClass(Lesson.class);
+//        configuration.addAnnotatedClass(LessonTask.class);
         configuration.addAnnotatedClass(Resource.class);
-        configuration.addAnnotatedClass(Exercise.class);
+//        configuration.addAnnotatedClass(Exercise.class);
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         return sessionFactory;
     }

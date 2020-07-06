@@ -1,8 +1,5 @@
 package ru.javacourse.model;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
@@ -11,6 +8,7 @@ public class Resource
 {
     @Id
     @Column(name = "resource_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer resourceId;
 
     @Column(name = "technology")
@@ -22,13 +20,11 @@ public class Resource
     @Column(name = "title")
     private String title;
 
-
     @Column(name = "description")
     private String description;
 
     @Column(name = "link")
     private String link;
-
 
     @Column(name = "file")
     private byte[] file;
