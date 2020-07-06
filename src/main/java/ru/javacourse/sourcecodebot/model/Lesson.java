@@ -4,8 +4,8 @@ package ru.javacourse.sourcecodebot.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "lesson")
+//@Entity
+//@Table(name = "lesson")
 public class Lesson {
 
     @Id
