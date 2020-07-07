@@ -18,11 +18,7 @@ public class Lesson {
     @Column(name = "chapter")
     private String chapter;
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "description")
-    private String description;
+    
 
     @Column(name = "resource_id")
     private Integer resourceId;
