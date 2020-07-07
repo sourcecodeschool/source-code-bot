@@ -1,6 +1,9 @@
 package ru.javacourse.sourcecodebot.model;
 
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,19 +18,17 @@ public class Lesson {
     @Column(name = "chapter")
     private String chapter;
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "description")
-    private String description;
+    
 
     @Column(name = "resource_id")
     private Integer resourceId;
 
-    @OneToMany(mappedBy = "lesson", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "lesson")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<LessonTask> lessonTasks;
 
-    @OneToMany(mappedBy = "resourceId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "resourceId")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Resource> resources;
 
     public Integer getLessonId() {
