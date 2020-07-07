@@ -7,8 +7,8 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.List;
 
-//@Entity
-//@Table(name = "lesson")
+@Entity
+@Table(name = "lesson")
 public class Lesson {
 
     @Id
@@ -18,7 +18,7 @@ public class Lesson {
     @Column(name = "chapter")
     private String chapter;
 
-    
+
 
     @Column(name = "resource_id")
     private Integer resourceId;
@@ -47,21 +47,7 @@ public class Lesson {
         this.chapter = chapter;
     }
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Integer getResourceId() {
         return resourceId;
@@ -77,8 +63,6 @@ public class Lesson {
         return "Lesson{" +
                 "lessonId=" + lessonId +
                 ", chapter='" + chapter + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
                 ", resourceId=" + resourceId +
                 '}';
     }
