@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import ru.javacourse.sourcecodebot.telegram.MessageHandler;
 import ru.javacourse.sourcecodebot.telegram.ServiceBot;
 import ru.javacourse.sourcecodebot.telegram.handlers.HelpHandler;
+import ru.javacourse.sourcecodebot.telegram.handlers.InterviewHandler;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class TelegramConfig {
     public ServiceBot createCommonBot() {
         Map<String, MessageHandler> handlers = new HashMap<>();
         handlers.put("/help", helpHandler());
+        handlers.put("/java/interview/random", interviewHandler());
 
         return new ServiceBot(handlers);
     }
@@ -43,4 +45,10 @@ public class TelegramConfig {
     public HelpHandler helpHandler() {
         return new HelpHandler();
     }
+
+    @Bean
+    public InterviewHandler interviewHandler() {
+        return new InterviewHandler();
+    }
 }
+
