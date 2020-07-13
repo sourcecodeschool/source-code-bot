@@ -5,9 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import ru.javacourse.sourcecodebot.telegram.MessageHandler;
 import ru.javacourse.sourcecodebot.telegram.ServiceBot;
+import ru.javacourse.sourcecodebot.telegram.handlers.HelpHandler;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class TelegramConfig {
@@ -29,6 +33,14 @@ public class TelegramConfig {
 
     @Bean
     public ServiceBot createCommonBot() {
-        return new ServiceBot();
+        Map<String, MessageHandler> handlers = new HashMap<>();
+        handlers.put("/help", helpHandler());
+
+        return new ServiceBot(handlers);
+    }
+
+    @Bean
+    public HelpHandler helpHandler() {
+        return new HelpHandler();
     }
 }

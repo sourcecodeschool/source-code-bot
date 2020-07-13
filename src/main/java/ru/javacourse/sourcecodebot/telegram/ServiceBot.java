@@ -4,25 +4,22 @@ import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.javacourse.sourcecodebot.telegram.handlers.HelpHandler;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceBot extends TelegramLongPollingBot {
 
-    private Map<String, MessageHandler> handlers = new HashMap<>();
-
     private static final String UNKNOWN_COMMAND = "Неизвестная команда";
 
-    public ServiceBot() {
-        // TODO поправить этот колхоз пока никто не увидел
+    private final Map<String, MessageHandler> handlers;
 
-        handlers.put("/help", new HelpHandler());
+    public ServiceBot(Map<String, MessageHandler> handlers) {
+        this.handlers = handlers;
     }
 
     /**
      * Метод для приема сообщений.
+     *
      * @param update Содержит сообщение от пользователя.
      */
     @Override
@@ -30,7 +27,7 @@ public class ServiceBot extends TelegramLongPollingBot {
 
         String userMessage = update.getMessage().getText();
 
-        if (!StringUtils.isEmpty(userMessage)){
+        if (!StringUtils.isEmpty(userMessage)) {
             try {
                 MessageHandler handler = handlers.get(userMessage);
                 if (handler != null) {
@@ -54,6 +51,7 @@ public class ServiceBot extends TelegramLongPollingBot {
 
     /**
      * Метод возвращает имя бота, указанное при регистрации.
+     *
      * @return имя бота
      */
     @Override
@@ -63,8 +61,9 @@ public class ServiceBot extends TelegramLongPollingBot {
 
     /**
      * Метод возвращает token бота для связи с сервером Telegram
-     * @return token для бота
      *
+     * @return token для бота
+     * <p>
      * TODO: спрятать токен
      */
     @Override
