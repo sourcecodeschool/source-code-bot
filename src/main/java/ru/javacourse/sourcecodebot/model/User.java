@@ -1,7 +1,5 @@
 package ru.javacourse.sourcecodebot.model;
 
-import org.hibernate.annotations.Proxy;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +7,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-@Proxy(lazy = false)
 public class User {
     @Id
     @Column(name = "user_id")

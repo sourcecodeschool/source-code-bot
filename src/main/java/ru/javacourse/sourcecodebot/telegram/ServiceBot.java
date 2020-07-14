@@ -1,6 +1,7 @@
 package ru.javacourse.sourcecodebot.telegram;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,10 +11,11 @@ import ru.javacourse.sourcecodebot.repository.UserRepository;
 
 import java.util.Map;
 
+@Transactional
 public class ServiceBot extends TelegramLongPollingBot {
 
     private static final String UNKNOWN_COMMAND = "Неизвестная команда";
-    private static final String BLOCKEDSTATUS_COMMAND = "YOU SHALL NOT PASS!!!";
+    private static final String BLOCKED_STATUS_COMMAND = "YOU SHALL NOT PASS!!!";
 
     private final Map<String, MessageHandler> handlers;
 
@@ -87,7 +89,7 @@ public class ServiceBot extends TelegramLongPollingBot {
         SendMessage msg = new SendMessage();
         msg.enableMarkdown(true);
         msg.setChatId(update.getMessage().getChatId());
-        msg.setText(BLOCKEDSTATUS_COMMAND);
+        msg.setText(BLOCKED_STATUS_COMMAND);
         execute(msg);
     }
 
