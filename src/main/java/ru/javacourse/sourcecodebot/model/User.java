@@ -1,5 +1,7 @@
 package ru.javacourse.sourcecodebot.model;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,16 +9,20 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@Proxy(lazy = false)
 public class User {
     @Id
     @Column(name = "user_id")
-    private int userId;
+    private long userId;
 
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "user_name")
+    private String userName;
 
     @Column(name = "email")
     private String email;
@@ -30,11 +36,30 @@ public class User {
     @Column(name = "score")
     private int score;
 
-    public int getUserId() {
+    @Column(name="is_blocked")
+    private boolean isBlocked;
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -46,12 +71,12 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {

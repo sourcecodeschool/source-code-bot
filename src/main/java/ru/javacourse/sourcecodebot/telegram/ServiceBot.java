@@ -1,21 +1,28 @@
 package ru.javacourse.sourcecodebot.telegram;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.javacourse.sourcecodebot.model.User;
+import ru.javacourse.sourcecodebot.repository.UserRepository;
 
 import java.util.Map;
 
 public class ServiceBot extends TelegramLongPollingBot {
 
     private static final String UNKNOWN_COMMAND = "Неизвестная команда";
+    private static final String BLOCKEDSTATUS_COMMAND = "YOU SHALL NOT PASS!!!";
 
     private final Map<String, MessageHandler> handlers;
 
     public ServiceBot(Map<String, MessageHandler> handlers) {
         this.handlers = handlers;
     }
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Метод для приема сообщений.
@@ -25,20 +32,47 @@ public class ServiceBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        String userMessage = update.getMessage().getText();
+        if(checkUserByIDAndUpdate(update)) {
+            String userMessage = update.getMessage().getText();
 
-        if (!StringUtils.isEmpty(userMessage)) {
-            try {
-                MessageHandler handler = handlers.get(userMessage);
-                if (handler != null) {
-                    execute(handler.handle(update));
-                } else {
-                    sendDefaultMessage(update);
+            if (!StringUtils.isEmpty(userMessage)) {
+                try {
+                    MessageHandler handler = handlers.get(userMessage);
+                    if (handler != null) {
+                        execute(handler.handle(update));
+                    } else {
+                        sendDefaultMessage(update);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
+            }
+        } else {
+            try {
+                sendBlockedMessage(update);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
+    }
+
+    public boolean checkUserByIDAndUpdate (Update update){
+        boolean isExist = userRepository.existsById(update.getMessage().getChatId());
+        if(!isExist){
+            User user = new User();
+            user.setUserId(update.getMessage().getChatId());
+            user.setFirstName(update.getMessage().getChat().getFirstName());
+            user.setUserName(update.getMessage().getChat().getUserName());
+            user.setLastName(update.getMessage().getChat().getLastName());
+            user.setBlocked(false);
+            userRepository.save(user);
+        }else{
+            User userExist = userRepository.getOne(update.getMessage().getChatId());
+            if(userExist.isBlocked()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void sendDefaultMessage(Update update) throws Exception {
@@ -46,6 +80,14 @@ public class ServiceBot extends TelegramLongPollingBot {
         msg.enableMarkdown(true);
         msg.setChatId(update.getMessage().getChatId());
         msg.setText(UNKNOWN_COMMAND);
+        execute(msg);
+    }
+
+    private void sendBlockedMessage(Update update) throws Exception {
+        SendMessage msg = new SendMessage();
+        msg.enableMarkdown(true);
+        msg.setChatId(update.getMessage().getChatId());
+        msg.setText(BLOCKEDSTATUS_COMMAND);
         execute(msg);
     }
 
