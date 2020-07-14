@@ -10,6 +10,7 @@ import ru.javacourse.sourcecodebot.model.User;
 import ru.javacourse.sourcecodebot.repository.UserRepository;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Transactional
 public class ServiceBot extends TelegramLongPollingBot {
@@ -59,8 +60,8 @@ public class ServiceBot extends TelegramLongPollingBot {
     }
 
     public boolean checkUserByIDAndUpdate (Update update){
-        boolean isExist = userRepository.existsById(update.getMessage().getChatId());
-        if(!isExist){
+        Optional<User> optUser = userRepository.findById(update.getMessage().getChatId());
+        if(optUser.isEmpty()){
             User user = new User();
             user.setUserId(update.getMessage().getChatId());
             user.setFirstName(update.getMessage().getChat().getFirstName());
@@ -69,10 +70,7 @@ public class ServiceBot extends TelegramLongPollingBot {
             user.setBlocked(false);
             userRepository.save(user);
         }else{
-            User userExist = userRepository.getOne(update.getMessage().getChatId());
-            if(userExist.isBlocked()) {
-                return false;
-            }
+            return !optUser.get().isBlocked();
         }
         return true;
     }
