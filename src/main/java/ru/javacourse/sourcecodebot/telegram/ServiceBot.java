@@ -1,6 +1,7 @@
 package ru.javacourse.sourcecodebot.telegram;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -9,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.javacourse.sourcecodebot.model.User;
 import ru.javacourse.sourcecodebot.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 
@@ -68,8 +70,10 @@ public class ServiceBot extends TelegramLongPollingBot {
             user.setUserName(update.getMessage().getChat().getUserName());
             user.setLastName(update.getMessage().getChat().getLastName());
             user.setBlocked(false);
+            user.setLastActiveDate(LocalDate.now());
             userRepository.save(user);
         }else{
+            userRepository.setUserLastActiveDate(LocalDate.now(), optUser.get().getUserId());
             return !optUser.get().isBlocked();
         }
         return true;
