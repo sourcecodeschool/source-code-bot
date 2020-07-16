@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.javacourse.sourcecodebot.model.User;
 import ru.javacourse.sourcecodebot.repository.UserRepository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -69,11 +69,11 @@ public class ServiceBot extends TelegramLongPollingBot {
             user.setUserName(update.getMessage().getChat().getUserName());
             user.setLastName(update.getMessage().getChat().getLastName());
             user.setBlocked(false);
-            user.setLastActiveDate(LocalDate.now());
+            user.setLastActiveDate(LocalDateTime.now());
             userRepository.save(user);
         }else{
-            if (optUser.get().getLastActiveDate().compareTo(LocalDate.now())!=0)
-                userRepository.setUserLastActiveDate(LocalDate.now(), optUser.get().getUserId());
+            optUser.get().setLastActiveDate(LocalDateTime.now());
+            userRepository.save(optUser.get());
             return !optUser.get().isBlocked();
         }
         return true;
