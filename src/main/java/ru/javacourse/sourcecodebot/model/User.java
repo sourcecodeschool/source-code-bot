@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -35,6 +36,17 @@ public class User {
 
     @Column(name="is_blocked")
     private boolean isBlocked;
+
+    @Column(name="last_active_date")
+    private LocalDateTime lastActiveDate;
+
+    public LocalDateTime getLastActiveDate() {
+        return lastActiveDate;
+    }
+
+    public void setLastActiveDate(LocalDateTime lastActiveDate) {
+        this.lastActiveDate = lastActiveDate;
+    }
 
     public String getLastName() {
         return lastName;
