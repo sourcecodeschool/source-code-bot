@@ -9,4 +9,7 @@ public interface ResourceRepository
 
     @Query(value = "SELECT * FROM resource r WHERE r.resource_type = ?1 ORDER BY random() LIMIT 1", nativeQuery = true)
     Resource findRandomQuestion(String resourceType);
+
+    @Query(value = "SELECT * FROM resource r WHERE r.resource_type = ?1, r.tag = 'spring' ORDER BY random() LIMIT 1", nativeQuery = true)
+    Resource findRandomSpringQuestion(String resourceType);
 }
