@@ -10,25 +10,26 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-@Table(name = "auth_user")
+@Table(name="auth_user")
 public class AuthUser implements UserDetails {
-    private String  username;
-
-    private  String password;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String username;
+    private String password;
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
     public String getUsername() {
         return username;
     }
@@ -52,23 +53,4 @@ public class AuthUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE-USER"));
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
 }

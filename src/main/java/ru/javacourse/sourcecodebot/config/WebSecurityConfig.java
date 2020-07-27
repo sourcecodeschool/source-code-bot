@@ -9,24 +9,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Autowired
-    private AuthUserDetailService userDetailService;
+    private AuthUserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailService)
-                .passwordEncoder(passwordEncoder());
+    auth
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
     }
 
-    @Bean
     public PasswordEncoder passwordEncoder(){
         return NoOpPasswordEncoder.getInstance();
     }
-
 }
