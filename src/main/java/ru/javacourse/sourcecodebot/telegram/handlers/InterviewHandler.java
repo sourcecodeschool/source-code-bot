@@ -8,16 +8,43 @@ import ru.javacourse.sourcecodebot.model.Resource;
 import ru.javacourse.sourcecodebot.repository.ResourceRepository;
 import ru.javacourse.sourcecodebot.telegram.MessageHandler;
 
+import java.util.Map;
+
 @Transactional
 public class InterviewHandler implements MessageHandler {
 
     @Autowired
     private ResourceRepository repository;
 
-
     @Override
     public SendMessage handle(Update update) {
+        String text = update.getMessage().getText();
+
+        switch (text) {
+            case "/java/interview/random": {
+                return getRandomQuestion(update);
+            }
+            default: {
+               return getRandomQuestionByTag(update);
+            }
+        }
+    }
+
+    public SendMessage getRandomQuestion(Update update) {
         Resource question = repository.findRandomQuestion("interview_question");
+
+        SendMessage msg = new SendMessage();
+        msg.enableMarkdown(true);
+        msg.setChatId(update.getMessage().getChatId());
+        msg.setText(question.getTitle());
+        return msg;
+    }
+
+    public SendMessage getRandomQuestionByTag(Update update) {
+        String userMessage = update.getMessage().getText();
+        String tag = userMessage.substring(userMessage.lastIndexOf("/") + 1);
+
+        Resource question = repository.findRandomQuestionByTag("interview_question", tag);
 
         SendMessage msg = new SendMessage();
         msg.enableMarkdown(true);

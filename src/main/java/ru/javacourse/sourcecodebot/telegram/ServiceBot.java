@@ -27,18 +27,23 @@ public class ServiceBot extends TelegramLongPollingBot {
 
         String userMessage = update.getMessage().getText();
 
-        if (!StringUtils.isEmpty(userMessage)) {
-            try {
-                MessageHandler handler = handlers.get(userMessage);
-                if (handler != null) {
-                    execute(handler.handle(update));
-                } else {
-                    sendDefaultMessage(update);
+        for (String key: handlers.keySet()) {
+            if (userMessage.contains(key)) {
+                try {
+                    MessageHandler handler = handlers.get(key);
+                    if (handler != null) {
+                        execute(handler.handle(update));
+                    } else {
+                        sendDefaultMessage(update);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                break;
             }
         }
+
+
     }
 
     private void sendDefaultMessage(Update update) throws Exception {
