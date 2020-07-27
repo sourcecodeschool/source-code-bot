@@ -36,8 +36,7 @@ public class TelegramConfig {
     public ServiceBot createCommonBot() {
         Map<String, MessageHandler> handlers = new HashMap<>();
         handlers.put("/help", helpHandler());
-        handlers.put("/java/interview/random", interviewHandler());
-
+        handlers.put("/java/interview/", interviewHandler());
         return new ServiceBot(handlers);
     }
 

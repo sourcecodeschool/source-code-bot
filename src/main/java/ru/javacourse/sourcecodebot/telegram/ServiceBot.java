@@ -39,9 +39,10 @@ public class ServiceBot extends TelegramLongPollingBot {
         if(checkUserByIDAndUpdate(update)) {
             String userMessage = update.getMessage().getText();
 
-            if (!StringUtils.isEmpty(userMessage)) {
+        for (String key: handlers.keySet()) {
+            if (userMessage.contains(key)) {
                 try {
-                    MessageHandler handler = handlers.get(userMessage);
+                    MessageHandler handler = handlers.get(key);
                     if (handler != null) {
                         execute(handler.handle(update));
                     } else {
@@ -50,6 +51,7 @@ public class ServiceBot extends TelegramLongPollingBot {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+                break;
             }
         } else {
             try {
@@ -58,6 +60,8 @@ public class ServiceBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
+
+
     }
 
     public boolean checkUserByIDAndUpdate (Update update){
