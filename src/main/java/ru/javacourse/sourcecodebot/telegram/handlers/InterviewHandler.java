@@ -31,12 +31,21 @@ public class InterviewHandler implements MessageHandler {
     }
 
     public SendMessage getRandomQuestion(Update update) {
+
         Resource question = repository.findRandomQuestion("interview_question");
+
+        String responseText;
+
+        if (question == null) {
+            responseText = "Данный запрос не найден";
+        } else {
+            responseText = question.getTitle();
+        }
 
         SendMessage msg = new SendMessage();
         msg.enableMarkdown(true);
         msg.setChatId(update.getMessage().getChatId());
-        msg.setText(question.getTitle());
+        msg.setText(responseText);
         return msg;
     }
 
@@ -46,10 +55,18 @@ public class InterviewHandler implements MessageHandler {
 
         Resource question = repository.findRandomQuestionByTag("interview_question", tag);
 
+        String responseText;
+
+        if (question == null) {
+            responseText = "Данный запрос не найден";
+        } else {
+            responseText = question.getTitle();
+        }
+
         SendMessage msg = new SendMessage();
         msg.enableMarkdown(true);
         msg.setChatId(update.getMessage().getChatId());
-        msg.setText(question.getTitle());
+        msg.setText(responseText);
         return msg;
     }
 }
