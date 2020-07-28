@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.javacourse.sourcecodebot.model.Lesson;
+import ru.javacourse.sourcecodebot.model.Resource;
 
 import java.util.List;
 
@@ -18,5 +19,12 @@ public class LessonRepositoryTest {
     public void testFind() {
         List<Lesson> lessons = repository.findAll();
         Assertions.assertNotEquals(0, lessons.size());
+    }
+
+    @Test
+    public void testFindByChapter() {
+        Lesson lesson = repository.findLessonByChapterId("2.1");
+        Resource resources = lesson.getResources();
+        Assertions.assertNotNull(lesson);
     }
 }

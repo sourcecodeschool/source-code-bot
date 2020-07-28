@@ -18,11 +18,15 @@ public class Lesson {
     @Column(name = "chapter")
     private String chapter;
 
+    @Column(name = "chapter_id")
+    private String chapterId;
+
     @OneToMany(mappedBy = "lesson")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<LessonTask> lessonTasks;
 
     @OneToOne
+    @JoinColumn(name="resource_id")
     private Resource resources;
 
     public Integer getLessonId() {
@@ -41,11 +45,23 @@ public class Lesson {
         this.chapter = chapter;
     }
 
+    public String getChapter_id() { return chapterId; }
+
+    public Resource getResources() {
+        return resources;
+    }
+
+    public void setResources(Resource resources) {
+        this.resources = resources;
+    }
+
+    public void setChapter_id(String chapter_id) { this.chapterId = chapter_id; }
     @Override
     public String toString() {
         return "Lesson{" +
                 "lessonId=" + lessonId +
                 ", chapter='" + chapter + '\'' +
+                ", chapter_id='" + chapterId +
                 '}';
     }
 

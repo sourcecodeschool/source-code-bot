@@ -11,7 +11,6 @@ public class LessonTask {
     @Column(name = "lt_id")
     private Integer ltId;
 
-
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
@@ -19,8 +18,15 @@ public class LessonTask {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "link")
+    private String link;
+
     @Column(name = "description")
     private String description;
+
+    public String getLink() { return link; }
+
+    public void setLink(String link) { this.link = link; }
 
     public Integer getLtId() {
         return ltId;

@@ -9,6 +9,7 @@ import ru.javacourse.sourcecodebot.telegram.MessageHandler;
 import ru.javacourse.sourcecodebot.telegram.ServiceBot;
 import ru.javacourse.sourcecodebot.telegram.handlers.HelpHandler;
 import ru.javacourse.sourcecodebot.telegram.handlers.InterviewHandler;
+import ru.javacourse.sourcecodebot.telegram.handlers.LessonHandler;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -37,6 +38,8 @@ public class TelegramConfig {
         Map<String, MessageHandler> handlers = new HashMap<>();
         handlers.put("/help", helpHandler());
         handlers.put("/java/interview/random", interviewHandler());
+        handlers.put("/java/lesson/", lessonHandler());
+
 
         return new ServiceBot(handlers);
     }
@@ -49,6 +52,11 @@ public class TelegramConfig {
     @Bean
     public InterviewHandler interviewHandler() {
         return new InterviewHandler();
+    }
+
+    @Bean
+    public LessonHandler lessonHandler() {
+        return new LessonHandler();
     }
 }
 

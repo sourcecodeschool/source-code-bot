@@ -15,7 +15,7 @@ public class ResourceRepositoryTest {
     private ResourceRepository repository;
 
     @Test
-    public void testFind() {
+    public void testFindAll() {
         List<Resource> resources = repository.findAll();
         Assertions.assertNotEquals(0, resources.size());
     }
